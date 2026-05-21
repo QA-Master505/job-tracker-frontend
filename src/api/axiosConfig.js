@@ -18,3 +18,8 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+
+export const getInterviewRounds = (jobId) => api.get(`/jobs/${jobId}/interviews`);
+export const addInterviewRound = (jobId, data) => api.post(`/jobs/${jobId}/interviews`, data);
+export const updateInterviewRound = (jobId, roundId, data) => api.put(`/jobs/${jobId}/interviews/${roundId}`, data);
+export const deleteInterviewRound = (jobId, roundId) => api.delete(`/jobs/${jobId}/interviews/${roundId}`);

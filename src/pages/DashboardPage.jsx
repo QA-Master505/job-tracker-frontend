@@ -4,22 +4,35 @@ import { useAuth } from "../hooks/useAuth";
 import JobCard from "../components/jobs/JobCard";
 import JobForm from "../components/jobs/JobForm";
 
+const INTERVIEW_STATUSES = [
+  "phone_interview",
+  "virtual_interview",
+  "onsite_interview",
+];
+
 const STATS = [
-  { label: "Total", key: "total", color: "text-gray-900" },
-  { label: "Applied", key: "applied", color: "text-blue-600" },
-  { label: "Interview", key: "interview", color: "text-yellow-600" },
-  { label: "Offer", key: "offer", color: "text-green-600" },
-  { label: "Rejected", key: "rejected", color: "text-red-600" },
+  { label: "All", key: "total", color: "text-gray-900", filter: null },
+  { label: "Applied", key: "applied", color: "text-blue-600", filter: "applied" },
+  { label: "Interview", key: "interview", color: "text-yellow-600", filter: "interview" },
+  { label: "Offer", key: "offer", color: "text-green-600", filter: "offer" },
+  { label: "Rejected", key: "rejected", color: "text-red-600", filter: "rejected" },
 ];
 
 function computeStats(jobs) {
   return {
     total: jobs.length,
     applied: jobs.filter((j) => j.status === "applied").length,
-    interview: jobs.filter((j) => j.status === "interview").length,
+    interview: jobs.filter((j) => INTERVIEW_STATUSES.includes(j.status)).length,
     offer: jobs.filter((j) => j.status === "offer").length,
     rejected: jobs.filter((j) => j.status === "rejected").length,
   };
+}
+
+function applyFilter(jobs, activeFilter) {
+  if (!activeFilter) return jobs;
+  if (activeFilter === "interview")
+    return jobs.filter((j) => INTERVIEW_STATUSES.includes(j.status));
+  return jobs.filter((j) => j.status === activeFilter);
 }
 
 export default function DashboardPage() {
@@ -30,6 +43,7 @@ export default function DashboardPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [activeFilter, setActiveFilter] = useState(null);
 
   const fetchJobs = useCallback(async () => {
     setLoading(true);
@@ -37,7 +51,7 @@ export default function DashboardPage() {
     try {
       const response = await api.get("/jobs");
       setJobs(response.data);
-    } catch (err) {
+    } catch {
       setError("Failed to load applications. Please refresh.");
     } finally {
       setLoading(false);
@@ -76,18 +90,20 @@ export default function DashboardPage() {
     setEditingJob(null);
     setShowForm(true);
   };
-
   const openEdit = (job) => {
     setEditingJob(job);
     setShowForm(true);
   };
-
   const closeForm = () => {
     setShowForm(false);
     setEditingJob(null);
   };
 
   const stats = computeStats(jobs);
+  const filteredJobs = applyFilter(jobs, activeFilter);
+
+  const activeFilterLabel =
+    STATS.find((s) => s.filter === activeFilter)?.label ?? "";
 
   return (
     <main className="flex-1 px-4 sm:px-6 py-8 bg-gray-50">
@@ -108,18 +124,43 @@ export default function DashboardPage() {
           </button>
         </div>
 
-        {/* Stats bar */}
+        {/* Stats / filter bar */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
-          {STATS.map(({ label, key, color }) => (
-            <div
-              key={key}
-              className="bg-white rounded-xl border border-gray-200 px-4 py-3 text-center shadow-sm"
-            >
-              <p className={`text-2xl font-bold ${color}`}>{stats[key]}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{label}</p>
-            </div>
-          ))}
+          {STATS.map(({ label, key, color, filter }) => {
+            const isActive = activeFilter === filter;
+            return (
+              <button
+                key={key}
+                onClick={() =>
+                  setActiveFilter((prev) => (prev === filter ? null : filter))
+                }
+                className={`rounded-xl border px-4 py-3 text-center shadow-sm transition-all ${
+                  isActive
+                    ? "bg-blue-50 border-blue-400 ring-2 ring-blue-200"
+                    : "bg-white border-gray-200 hover:border-gray-300 hover:shadow"
+                }`}
+              >
+                <p className={`text-2xl font-bold ${color}`}>{stats[key]}</p>
+                <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Active filter label */}
+        {activeFilter && (
+          <div className="mb-4 flex items-center gap-2 text-sm text-gray-500">
+            <span>
+              Showing: <span className="font-medium text-gray-700">{activeFilterLabel}</span>
+            </span>
+            <button
+              onClick={() => setActiveFilter(null)}
+              className="text-blue-600 hover:underline"
+            >
+              Clear filter
+            </button>
+          </div>
+        )}
 
         {/* Error */}
         {error && (
@@ -161,26 +202,44 @@ export default function DashboardPage() {
         )}
 
         {/* Empty state */}
-        {!loading && jobs.length === 0 && !error && (
+        {!loading && filteredJobs.length === 0 && !error && (
           <div className="bg-white border border-dashed border-gray-300 rounded-xl px-6 py-16 text-center">
-            <p className="text-gray-400 text-lg">No applications yet.</p>
-            <p className="text-gray-400 text-sm mt-1">
-              Click{" "}
-              <button
-                onClick={openAdd}
-                className="font-medium text-blue-500 hover:text-blue-700 underline underline-offset-2"
-              >
-                Add Application
-              </button>{" "}
-              to get started.
-            </p>
+            {activeFilter ? (
+              <>
+                <p className="text-gray-400 text-lg">
+                  No {activeFilterLabel.toLowerCase()} applications.
+                </p>
+                <p className="text-gray-400 text-sm mt-1">
+                  <button
+                    onClick={() => setActiveFilter(null)}
+                    className="font-medium text-blue-500 hover:text-blue-700 underline underline-offset-2"
+                  >
+                    Show all applications
+                  </button>
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-gray-400 text-lg">No applications yet.</p>
+                <p className="text-gray-400 text-sm mt-1">
+                  Click{" "}
+                  <button
+                    onClick={openAdd}
+                    className="font-medium text-blue-500 hover:text-blue-700 underline underline-offset-2"
+                  >
+                    Add Application
+                  </button>{" "}
+                  to get started.
+                </p>
+              </>
+            )}
           </div>
         )}
 
         {/* Job grid */}
-        {!loading && jobs.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {jobs.map((job) => (
+        {!loading && filteredJobs.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+            {filteredJobs.map((job) => (
               <div
                 key={job.id}
                 className={
@@ -194,7 +253,7 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* Form modal */}
+      {/* Job form modal */}
       {showForm && (
         <JobForm
           job={editingJob}
