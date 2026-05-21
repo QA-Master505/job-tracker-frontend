@@ -1,10 +1,10 @@
 import { formatDate } from "../../utils/helpers";
 
 const TYPE_CONFIG = {
-  phone: { label: "Phone", color: "bg-purple-100 text-purple-800" },
-  virtual: { label: "Virtual", color: "bg-indigo-100 text-indigo-800" },
-  onsite: { label: "Onsite", color: "bg-yellow-100 text-yellow-800" },
-  other: { label: "Other", color: "bg-gray-100 text-gray-700" },
+  phone: { label: "📞 Phone", color: "bg-yellow-100 text-yellow-800" },
+  virtual: { label: "💻 Virtual", color: "bg-indigo-100 text-indigo-800" },
+  onsite: { label: "🏢 Onsite", color: "bg-orange-100 text-orange-800" },
+  other: { label: "📋 Other", color: "bg-gray-100 text-gray-800" },
 };
 
 export default function InterviewRoundCard({ round, onEdit, onDelete }) {

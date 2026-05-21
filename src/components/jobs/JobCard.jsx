@@ -183,7 +183,7 @@ export default function JobCard({ job, onEdit, onDelete }) {
                 )}
                 <button
                   onClick={openAdd}
-                  className="mt-1 w-full text-xs border border-dashed border-blue-300 text-blue-600 rounded-lg py-2 hover:bg-blue-50 transition-colors"
+                  className="mt-1 w-full text-xs py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   + Add Interview Round
                 </button>

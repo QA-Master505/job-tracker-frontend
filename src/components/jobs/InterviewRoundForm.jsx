@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
 const TYPE_OPTIONS = [
-  { value: "phone", label: "Phone" },
-  { value: "virtual", label: "Virtual" },
-  { value: "onsite", label: "Onsite" },
-  { value: "other", label: "Other" },
+  { value: "phone", label: "📞 Phone Call" },
+  { value: "virtual", label: "💻 Virtual / Online" },
+  { value: "onsite", label: "🏢 In Office / Onsite" },
+  { value: "other", label: "📋 Other" },
 ];
 
 const EMPTY_FORM = {
