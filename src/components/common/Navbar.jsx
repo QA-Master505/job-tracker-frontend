@@ -19,16 +19,25 @@ export default function Navbar() {
       <div className="flex items-center gap-3">
         {user ? (
           <>
-            {user.email && (
-              <span className="hidden sm:block text-sm text-gray-500 truncate max-w-[200px]">
-                {user.email}
+            <div className="hidden sm:flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold shrink-0">
+                {user.username?.[0]?.toUpperCase() ?? "?"}
+              </div>
+              <span className="text-sm text-gray-600 truncate max-w-[160px]">
+                Hi, {user.username}
               </span>
-            )}
+            </div>
             <Link
               to="/dashboard"
               className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
             >
               Dashboard
+            </Link>
+            <Link
+              to="/profile"
+              className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+            >
+              Profile
             </Link>
             <button
               onClick={handleLogout}

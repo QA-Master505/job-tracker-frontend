@@ -98,9 +98,7 @@ export default function DashboardPage() {
             <h1 className="text-2xl font-bold text-gray-900">
               My Applications
             </h1>
-            {user?.email && (
-              <p className="text-sm text-gray-500 mt-0.5">{user.email}</p>
-            )}
+            <p className="text-sm text-gray-500 mt-0.5">{user?.email}</p>
           </div>
           <button
             onClick={openAdd}

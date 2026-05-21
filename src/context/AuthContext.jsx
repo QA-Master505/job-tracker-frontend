@@ -10,8 +10,9 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setUser({ token });
+    const savedUser = localStorage.getItem("user");
+    if (token && savedUser) {
+      setUser(JSON.parse(savedUser));
     }
     setLoading(false);
   }, []);
@@ -25,12 +26,17 @@ export function AuthProvider({ children }) {
 
     const { access_token } = response.data;
     localStorage.setItem("token", access_token);
-    setUser({ email });
+    // Fetch full profile so username, created_at etc. are available everywhere
+    const meResponse = await api.get("/auth/me");
+    const userData = meResponse.data;
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
     return response.data;
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
@@ -43,8 +49,14 @@ export function AuthProvider({ children }) {
     return response.data;
   };
 
+  const updateUser = (updatedData) => {
+    const newUser = { ...user, ...updatedData };
+    localStorage.setItem("user", JSON.stringify(newUser));
+    setUser(newUser);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, register }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, register, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
