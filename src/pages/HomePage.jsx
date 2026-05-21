@@ -45,7 +45,10 @@ export default function HomePage() {
           ✓ Vite + React + Tailwind CSS setup complete
         </p>
         <p className="text-green-600 text-sm mt-1">
-          Backend API: <code className="bg-green-100 px-1 rounded">http://localhost:8000</code>
+          Backend API:{" "}
+          <code className="bg-green-100 px-1 rounded">
+            http://localhost:8000
+          </code>
         </p>
       </div>
     </main>

@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL || "http://localhost:8000"}/auth/login`,
       { email, password },
-      { headers: { "Content-Type": "application/json" } }
+      { headers: { "Content-Type": "application/json" } },
     );
 
     const { access_token } = response.data;
@@ -35,7 +35,11 @@ export function AuthProvider({ children }) {
   };
 
   const register = async (username, email, password) => {
-    const response = await api.post("/auth/register", { username, email, password });
+    const response = await api.post("/auth/register", {
+      username,
+      email,
+      password,
+    });
     return response.data;
   };
 

@@ -11,22 +11,28 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-      <Link to="/" className="text-xl font-bold text-blue-600">
+    <nav className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3.5 flex items-center justify-between">
+      <Link to="/" className="text-lg font-bold text-blue-600 shrink-0">
         JobTracker
       </Link>
-      <div className="flex items-center gap-4">
+
+      <div className="flex items-center gap-3">
         {user ? (
           <>
+            {user.email && (
+              <span className="hidden sm:block text-sm text-gray-500 truncate max-w-[200px]">
+                {user.email}
+              </span>
+            )}
             <Link
               to="/dashboard"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
             >
               Dashboard
             </Link>
             <button
               onClick={handleLogout}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition-colors"
             >
               Logout
             </button>
@@ -35,13 +41,13 @@ export default function Navbar() {
           <>
             <Link
               to="/login"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Register
             </Link>

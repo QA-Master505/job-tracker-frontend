@@ -17,7 +17,9 @@ export default function RegisterPage() {
       await register(form.username, form.email, form.password);
       navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.detail || "Registration failed. Please try again.");
+      setError(
+        err.response?.data?.detail || "Registration failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -26,15 +28,22 @@ export default function RegisterPage() {
   return (
     <main className="flex items-center justify-center flex-1 px-6 py-20">
       <div className="w-full max-w-md">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Create Account</h2>
-        <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm space-y-5">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          Create Account
+        </h2>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm space-y-5"
+        >
           {error && (
             <p className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
               {error}
             </p>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Username
+            </label>
             <input
               type="text"
               required
@@ -44,7 +53,9 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
             <input
               type="email"
               required
@@ -54,7 +65,9 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
             <input
               type="password"
               required
