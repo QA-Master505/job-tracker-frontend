@@ -29,18 +29,21 @@ export default function Navbar() {
             </div>
             <Link
               to="/dashboard"
+              data-testid="nav-dashboard-link"
               className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
             >
               Dashboard
             </Link>
             <Link
               to="/profile"
+              data-testid="nav-profile-link"
               className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
             >
               Profile
             </Link>
             <button
               onClick={handleLogout}
+              data-testid="logout-btn"
               className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition-colors"
             >
               Logout

@@ -95,6 +95,7 @@ export default function JobForm({ job, onSubmit, onClose }) {
               <input
                 type="text"
                 required
+                data-testid="job-company-input"
                 value={form.company_name}
                 onChange={set("company_name")}
                 placeholder="e.g. Google"
@@ -108,6 +109,7 @@ export default function JobForm({ job, onSubmit, onClose }) {
               <input
                 type="text"
                 required
+                data-testid="job-position-input"
                 value={form.job_title}
                 onChange={set("job_title")}
                 placeholder="e.g. Frontend Engineer"
@@ -135,6 +137,7 @@ export default function JobForm({ job, onSubmit, onClose }) {
                 Status
               </label>
               <select
+                data-testid="job-status-select"
                 value={form.status}
                 onChange={set("status")}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
@@ -182,6 +185,7 @@ export default function JobForm({ job, onSubmit, onClose }) {
             </button>
             <button
               type="submit"
+              data-testid="job-submit-btn"
               disabled={loading}
               className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-60"
             >

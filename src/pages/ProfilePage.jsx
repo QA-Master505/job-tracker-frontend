@@ -11,23 +11,24 @@ function SectionCard({ title, children }) {
   );
 }
 
-function StatusMessage({ type, message }) {
+function StatusMessage({ type, message, testId }) {
   if (!message) return null;
   const styles =
     type === "success"
       ? "bg-green-50 border-green-200 text-green-700"
       : "bg-red-50 border-red-200 text-red-700";
   return (
-    <p className={`border rounded-lg px-4 py-2 text-sm mt-3 ${styles}`}>
+    <p data-testid={testId} className={`border rounded-lg px-4 py-2 text-sm mt-3 ${styles}`}>
       {message}
     </p>
   );
 }
 
-function SaveButton({ loading }) {
+function SaveButton({ loading, testId }) {
   return (
     <button
       type="submit"
+      data-testid={testId}
       disabled={loading}
       className="mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-60"
     >
@@ -164,14 +165,15 @@ export default function ProfilePage() {
             <input
               type="text"
               required
+              data-testid="profile-username-input"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className={inputClass}
               minLength={3}
               maxLength={50}
             />
-            <StatusMessage {...usernameSection.status} />
-            <SaveButton loading={usernameSection.loading} />
+            <StatusMessage {...usernameSection.status} testId="profile-success-msg" />
+            <SaveButton loading={usernameSection.loading} testId="save-username-btn" />
           </form>
         </SectionCard>
 
@@ -182,12 +184,13 @@ export default function ProfilePage() {
             <input
               type="email"
               required
+              data-testid="profile-email-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={inputClass}
             />
-            <StatusMessage {...emailSection.status} />
-            <SaveButton loading={emailSection.loading} />
+            <StatusMessage {...emailSection.status} testId="profile-success-msg" />
+            <SaveButton loading={emailSection.loading} testId="save-email-btn" />
           </form>
         </SectionCard>
 

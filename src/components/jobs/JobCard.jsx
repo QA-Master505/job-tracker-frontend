@@ -127,12 +127,14 @@ export default function JobCard({ job, onEdit, onDelete }) {
             <div className="flex gap-2 shrink-0">
               <button
                 onClick={() => onEdit(job)}
+                data-testid="job-edit-btn"
                 className="text-xs px-3 py-1.5 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 transition-colors"
               >
                 Edit
               </button>
               <button
                 onClick={() => onDelete(job)}
+                data-testid="job-delete-btn"
                 className="text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-400 transition-colors"
               >
                 Delete

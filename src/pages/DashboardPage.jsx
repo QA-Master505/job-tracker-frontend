@@ -118,6 +118,7 @@ export default function DashboardPage() {
           </div>
           <button
             onClick={openAdd}
+            data-testid="add-application-btn"
             className="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm"
           >
             <span className="text-lg leading-none">+</span> Add Application
@@ -242,6 +243,7 @@ export default function DashboardPage() {
             {filteredJobs.map((job) => (
               <div
                 key={job.id}
+                data-testid="job-card"
                 className={
                   deletingId === job.id ? "opacity-50 pointer-events-none" : ""
                 }
