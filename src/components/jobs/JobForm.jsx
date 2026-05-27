@@ -185,7 +185,7 @@ export default function JobForm({ job, onSubmit, onClose }) {
             </button>
             <button
               type="submit"
-              data-testid="job-submit-btn"
+              data-testid={job ? "job-save-btn" : "job-submit-btn"}
               disabled={loading}
               className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-60"
             >
