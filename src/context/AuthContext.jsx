@@ -8,30 +8,22 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const savedUser = localStorage.getItem("user");
-    if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    api
+      .get("/auth/me")
+      .then((res) => setUser(res.data))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
   }, []);
 
   const login = async (email, password) => {
     const response = await api.post("/auth/login", { email, password });
-
-    const { access_token } = response.data;
-    localStorage.setItem("token", access_token);
-    // Fetch full profile so username, created_at etc. are available everywhere
     const meResponse = await api.get("/auth/me");
-    const userData = meResponse.data;
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
+    setUser(meResponse.data);
     return response.data;
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  const logout = async () => {
+    await api.post("/auth/logout");
     setUser(null);
   };
 
@@ -46,7 +38,6 @@ export function AuthProvider({ children }) {
 
   const updateUser = (updatedData) => {
     const newUser = { ...user, ...updatedData };
-    localStorage.setItem("user", JSON.stringify(newUser));
     setUser(newUser);
   };
 
