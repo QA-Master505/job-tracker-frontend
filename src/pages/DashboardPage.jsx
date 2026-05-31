@@ -35,9 +35,13 @@ function applyFilter(jobs, activeFilter) {
   return jobs.filter((j) => j.status === activeFilter);
 }
 
+const PAGE_SIZE = 20;
+
 export default function DashboardPage() {
   const { user } = useAuth();
   const [jobs, setJobs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -49,14 +53,22 @@ export default function DashboardPage() {
     setLoading(true);
     setError("");
     try {
-      const response = await api.get("/jobs");
-      setJobs(response.data);
+      const response = await api.get("/jobs", {
+        params: { page: currentPage, page_size: PAGE_SIZE },
+      });
+      setJobs(response.data.items);
+      setTotalPages(response.data.total_pages);
     } catch {
       setError("Failed to load applications. Please refresh.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentPage]);
+
+  const handleFilterChange = (filter) => {
+    setActiveFilter(filter);
+    setCurrentPage(1);
+  };
 
   useEffect(() => {
     fetchJobs();
@@ -133,7 +145,7 @@ export default function DashboardPage() {
               <button
                 key={key}
                 onClick={() =>
-                  setActiveFilter((prev) => (prev === filter ? null : filter))
+                  handleFilterChange(activeFilter === filter ? null : filter)
                 }
                 className={`rounded-xl border px-4 py-3 text-center shadow-sm transition-all ${
                   isActive
@@ -155,7 +167,7 @@ export default function DashboardPage() {
               Showing: <span className="font-medium text-gray-700">{activeFilterLabel}</span>
             </span>
             <button
-              onClick={() => setActiveFilter(null)}
+              onClick={() => handleFilterChange(null)}
               className="text-blue-600 hover:underline"
             >
               Clear filter
@@ -212,7 +224,7 @@ export default function DashboardPage() {
                 </p>
                 <p className="text-gray-400 text-sm mt-1">
                   <button
-                    onClick={() => setActiveFilter(null)}
+                    onClick={() => handleFilterChange(null)}
                     className="font-medium text-blue-500 hover:text-blue-700 underline underline-offset-2"
                   >
                     Show all applications
@@ -251,6 +263,34 @@ export default function DashboardPage() {
                 <JobCard job={job} onEdit={openEdit} onDelete={handleDelete} />
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <button
+              data-testid="pagination-prev"
+              onClick={() => setCurrentPage((p) => p - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 text-sm rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              ← Previous
+            </button>
+            <span
+              data-testid="pagination-info"
+              className="text-sm text-gray-500"
+            >
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              data-testid="pagination-next"
+              onClick={() => setCurrentPage((p) => p + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 text-sm rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              Next →
+            </button>
           </div>
         )}
       </div>
