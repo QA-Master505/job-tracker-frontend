@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const TYPE_OPTIONS = [
   { value: "phone", label: "📞 Phone Call" },
@@ -14,21 +14,19 @@ const EMPTY_FORM = {
 };
 
 export default function InterviewRoundForm({ round, onSubmit, onClose }) {
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm] = useState(() =>
+    round
+      ? {
+          interview_type: round.interview_type || "phone",
+          interview_date:
+            round.interview_date?.slice(0, 10) ||
+            new Date().toISOString().slice(0, 10),
+          notes: round.notes || "",
+        }
+      : EMPTY_FORM,
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (round) {
-      setForm({
-        interview_type: round.interview_type || "phone",
-        interview_date:
-          round.interview_date?.slice(0, 10) ||
-          new Date().toISOString().slice(0, 10),
-        notes: round.notes || "",
-      });
-    }
-  }, [round]);
 
   const set = (field) => (e) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));

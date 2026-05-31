@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { STATUS_OPTIONS } from "../../utils/helpers";
 
 const EMPTY_FORM = {
@@ -11,24 +11,22 @@ const EMPTY_FORM = {
 };
 
 export default function JobForm({ job, onSubmit, onClose }) {
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm] = useState(() =>
+    job
+      ? {
+          company_name: job.company_name || "",
+          job_title: job.job_title || "",
+          job_url: job.job_url || "",
+          status: job.status || "applied",
+          applied_date:
+            job.applied_date?.slice(0, 10) ||
+            new Date().toISOString().slice(0, 10),
+          notes: job.notes || "",
+        }
+      : EMPTY_FORM,
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (job) {
-      setForm({
-        company_name: job.company_name || "",
-        job_title: job.job_title || "",
-        job_url: job.job_url || "",
-        status: job.status || "applied",
-        applied_date:
-          job.applied_date?.slice(0, 10) ||
-          new Date().toISOString().slice(0, 10),
-        notes: job.notes || "",
-      });
-    }
-  }, [job]);
 
   const set = (field) => (e) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));

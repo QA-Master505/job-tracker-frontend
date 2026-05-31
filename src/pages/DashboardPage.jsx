@@ -71,7 +71,7 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    fetchJobs();
+    (async () => { await fetchJobs(); })();
   }, [fetchJobs]);
 
   const handleAdd = async (formData) => {

@@ -45,7 +45,8 @@ export default function JobCard({ job, onEdit, onDelete }) {
   }, [job.id]);
 
   useEffect(() => {
-    if (showInterviews) fetchRounds();
+    if (!showInterviews) return;
+    (async () => { await fetchRounds(); })();
   }, [showInterviews, fetchRounds]);
 
   const handleAddRound = async (data) => {
