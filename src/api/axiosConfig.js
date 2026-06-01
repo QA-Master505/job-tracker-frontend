@@ -12,9 +12,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Avoid redirect loop — only redirect if not already on /login
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = "/login";
+      const publicPaths = ['/login', '/register', '/'];
+      const isPublic = publicPaths.some(p => window.location.pathname === p);
+      if (!isPublic) {
+        window.location.href = '/login';
       }
     }
     return Promise.reject(error);
