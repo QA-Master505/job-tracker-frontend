@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./admin/AdminRoute";
 import AdminLayout from "./admin/AdminLayout";
 import AdminDashboard from "./admin/pages/AdminDashboard";
+import AdminUsers from "./admin/pages/AdminUsers";
 
 // Wraps the public/user app in Navbar + Footer so admin routes can opt out
 function MainLayout() {
@@ -33,14 +34,7 @@ function App() {
             <Route element={<AdminLayout />}>
               <Route index element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard" element={<AdminDashboard />} />
-              <Route
-                path="users"
-                element={
-                  <div data-testid="admin-users-page" className="p-8 text-gray-500">
-                    Users page coming soon
-                  </div>
-                }
-              />
+              <Route path="users" element={<AdminUsers />} />
               <Route
                 path="audit-log"
                 element={
