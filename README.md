@@ -58,26 +58,22 @@ The project is deployed on **Vercel** with automatic deploys on push to `main`.
 ## Testing
 
 UI and end-to-end tests for this project live in the dedicated
-[job-tracker-tests](https://github.com/QA-Master505/job-tracker-tests) repository
-and run against the production Vercel + Railway stack.
+[job-tracker-tests](https://github.com/QA-Master505/job-tracker-tests)
+repository and run against the production Vercel + Railway stack.
+No test code lives in this repository.
 
-### End-to-End Tests
-Full browser journey tests covering register → login → create job → update →
-delete → logout, executed with Playwright against production.
+| Suite | Tool | What It Tests |
+|-------|------|--------------|
+| E2E Tests | Playwright Chromium | Full browser journeys — register, login, job CRUD, logout |
+| UI Spec Tests | Playwright Chromium | Component-level — forms, modals, validation states, error messages |
+| BDD Tests | Cucumber + Playwright | Gherkin acceptance scenarios — auth, jobs, profile |
+
+All three suites use `data-testid` attributes added to this codebase for
+stable, role-independent element targeting. They run against the production
+Vercel URL automatically.
 
 → [E2E Test Documentation](https://github.com/QA-Master505/job-tracker-tests/blob/main/docs/README-e2e-tests.md)
-
-### UI Spec Tests
-Component-level browser tests for individual UI features — login form,
-registration, job creation modal, status updates, interview rounds, and
-profile editing.
-
 → [UI Spec Test Documentation](https://github.com/QA-Master505/job-tracker-tests/blob/main/docs/README-ui-spec-tests.md)
-
-### BDD Tests
-Cucumber Gherkin scenarios covering auth and job management flows,
-run against production with Playwright step definitions.
-
 → [BDD Test Documentation](https://github.com/QA-Master505/job-tracker-tests/blob/main/docs/README-bdd-tests.md)
 
 ---
@@ -93,3 +89,12 @@ run against production with Playwright step definitions.
 | `npm run lint:fix` | Auto-fix ESLint errors |
 | `npm run format` | Format `src/` with Prettier |
 | `npm run clean` | Delete `dist/` and `node_modules/.cache` |
+
+---
+
+## 🔗 Related Repositories
+
+| Repository | Description | Link |
+|------------|-------------|------|
+| `job-tracker-backend` | FastAPI + PostgreSQL backend | [GitHub](https://github.com/QA-Master505/job-tracker-backend) |
+| `job-tracker-tests` | Full QA automation suite | [GitHub](https://github.com/QA-Master505/job-tracker-tests) |
