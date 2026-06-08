@@ -55,6 +55,33 @@ The project is deployed on **Vercel** with automatic deploys on push to `main`.
 
 ---
 
+## Testing
+
+UI and end-to-end tests for this project live in the dedicated
+[job-tracker-tests](https://github.com/QA-Master505/job-tracker-tests) repository
+and run against the production Vercel + Railway stack.
+
+### End-to-End Tests
+Full browser journey tests covering register → login → create job → update →
+delete → logout, executed with Playwright against production.
+
+→ [E2E Test Documentation](https://github.com/QA-Master505/job-tracker-tests/blob/main/docs/README-e2e-tests.md)
+
+### UI Spec Tests
+Component-level browser tests for individual UI features — login form,
+registration, job creation modal, status updates, interview rounds, and
+profile editing.
+
+→ [UI Spec Test Documentation](https://github.com/QA-Master505/job-tracker-tests/blob/main/docs/README-ui-spec-tests.md)
+
+### BDD Tests
+Cucumber Gherkin scenarios covering auth and job management flows,
+run against production with Playwright step definitions.
+
+→ [BDD Test Documentation](https://github.com/QA-Master505/job-tracker-tests/blob/main/docs/README-bdd-tests.md)
+
+---
+
 ## npm Scripts
 
 | Script | Description |
