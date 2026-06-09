@@ -11,6 +11,8 @@ import InterviewRoundForm from "./InterviewRoundForm";
 
 const getAbsoluteUrl = (url) => {
   if (!url) return null;
+  if (/^javascript:/i.test(url)) return '#';
+  if (/^data:/i.test(url)) return '#';
   if (/^https?:\/\//i.test(url)) return url;
   return "https://" + url;
 };
