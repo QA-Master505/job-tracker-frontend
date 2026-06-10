@@ -1,5 +1,9 @@
 # job-tracker-frontend
 
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://job-tracker-frontend-green-sigma.vercel.app)
+[![GitHub last commit](https://img.shields.io/github/last-commit/QA-Master505/job-tracker-frontend)](https://github.com/QA-Master505/job-tracker-frontend/commits/main)
+[![GitHub repo size](https://img.shields.io/github/repo-size/QA-Master505/job-tracker-frontend)](https://github.com/QA-Master505/job-tracker-frontend)
+
 React SPA for tracking job applications. Connects to the [job-tracker-backend](https://github.com/QA-Master505/job-tracker-backend) FastAPI REST API for authentication and job CRUD.
 
 ---
