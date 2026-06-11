@@ -35,7 +35,7 @@ function applyFilter(jobs, activeFilter) {
   return jobs.filter((j) => j.status === activeFilter);
 }
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 6;
 
 export default function DashboardPage() {
   const { user } = useAuth();
